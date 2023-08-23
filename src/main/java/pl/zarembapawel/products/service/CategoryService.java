@@ -10,6 +10,7 @@ import pl.zarembapawel.products.model.Category;
 import pl.zarembapawel.products.repository.CategoryRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,5 +34,13 @@ public class CategoryService {
         repository.save(entity);
         log.info("Category has been added");
         return HttpStatus.CREATED;
+    }
+
+    public Category getCategory(Integer id) {
+        Optional<CategoryEntity> category = repository.findById(id);
+        if(category.isEmpty()) {
+            return null;
+        }
+        return mapper.map(category, Category.class);
     }
 }
